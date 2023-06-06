@@ -1,0 +1,212 @@
+A1.
+
+def minimum_ascii_delete_sum(s1, s2):
+
+  # Create a table to store the minimum ASCII sum of deleted characters to make the substrings of s1 and s2 equal.
+  table = [[0 for i in range(len(s2) + 1)] for j in range(len(s1) + 1)]
+
+  # Initialize the table.
+  for i in range(len(s1) + 1):
+    for j in range(len(s2) + 1):
+      if i == 0 or j == 0:
+        table[i][j] = i + j
+      else:
+        if s1[i - 1] == s2[j - 1]:
+          table[i][j] = table[i - 1][j - 1]
+        else:
+          table[i][j] = min(table[i - 1][j] + ord(s1[i - 1]), table[i][j - 1] + ord(s2[j - 1]))
+
+  # Return the minimum ASCII sum of deleted characters to make the two strings equal.
+  return table[len(s1)][len(s2)]
+
+
+
+A2.
+
+def is_valid(s):
+  stack = []
+  for c in s:
+    if c == '(':
+      stack.append(c)
+    elif c == ')':
+      if len(stack) == 0 or stack.pop() != '(':
+        return False
+    elif c == '*':
+      if len(stack) == 0:
+        return False
+      stack.pop()
+  return len(stack) == 0
+
+A3.
+
+def min_steps(word1, word2):
+
+  # Initialize the steps variable.
+  steps = 0
+
+  # Iterate over the characters in word1.
+  for char in word1:
+    # If the character is not present in word2, increment the steps variable.
+    if char not in word2:
+      steps += 1
+
+  # Return the steps variable.
+  return steps
+
+A4.
+
+def construct_tree(s):
+ 
+  stack = []
+  for i in range(len(s)):
+    if s[i] == '(':
+      stack.append(i)
+    elif s[i] == ')':
+      left_idx = stack.pop()
+      right_idx = i
+      node = Node(int(s[left_idx + 1:right_idx]))
+      node.left = construct_tree(s[left_idx + 1:right_idx])
+      node.right = construct_tree(s[right_idx + 1:i])
+      stack.append(i)
+      yield node
+
+
+class Node:
+  """A node in a binary tree."""
+
+  def __init__(self, data):
+    self.data = data
+    self.left = None
+    self.right = None
+
+
+def main():
+  s = "4(2(3)(1))(6(5))"
+  root = next(construct_tree(s))
+  print([node.data for node in preorder_traversal(root)])
+
+
+def preorder_traversal(root):
+  """Traverses a binary tree in preorder.
+
+  Args:
+    root: The root node of the binary tree.
+
+  Yields:
+    The data of each node in the binary tree in preorder.
+  """
+
+  if root:
+    yield root.data
+    yield from preorder_traversal(root.left)
+    yield from preorder_traversal(root.right)
+
+
+if __name__ == "__main__":
+  main()
+
+A5.
+
+def compress(chars):
+
+  new_len = 0
+  prev_char = None
+  count = 1
+  for char in chars:
+    if char != prev_char:
+      if count > 1:
+        chars[new_len] = count
+        new_len += 1
+      count = 1
+      prev_char = char
+    chars[new_len] = char
+    new_len += 1
+    count += 1
+
+  if count > 1:
+    chars[new_len] = count
+    new_len += 1
+
+  return new_len
+
+A6.
+
+def find_anagrams(s, p):
+
+  # Convert both strings to lists of characters.
+  s_list = list(s)
+  p_list = list(p)
+
+  # Create a dictionary to count the frequency of each character in p.
+  p_count = {}
+  for c in p_list:
+    p_count[c] = p_count.get(c, 0) + 1
+
+  # Iterate over the characters in s, starting from the beginning.
+  # For each character, decrement the count of that character in p_count.
+  # If the count of any character in p_count reaches 0, then we have found an anagram.
+  start_indices = []
+  for i in range(len(s_list)):
+    for j in range(len(p_list)):
+      if s_list[i] == p_list[j]:
+        p_count[s_list[i]] -= 1
+        if p_count[s_list[i]] == 0:
+          start_indices.append(i - len(p_list) + 1)
+          break
+
+  return start_indices
+
+
+A7.
+
+def decode_string(s):
+
+  # Create a stack to store the encoded strings.
+  stack = []
+
+  # Iterate over the characters in s.
+  for c in s:
+    if c >= '0' and c <= '9':
+      # If the character is a digit, then it is the number of times to repeat the next encoded string.
+      count = int(c)
+      while count > 0:
+        # Pop the top encoded string from the stack and repeat it.
+        stack.append(stack.pop() * count)
+        count -= 1
+    else:
+      # If the character is not a digit, then it is the next encoded string to repeat.
+      stack.append(c)
+
+  # Iterate over the stack and concatenate the encoded strings together.
+  decoded_string = ''
+  for encoded_string in stack:
+    decoded_string += encoded_string
+
+  return decoded_string
+
+
+A8.
+
+def can_be_made_equal_by_swapping_letters(s, goal):
+  
+  # Convert both strings to lists of characters.
+  s_list = list(s)
+  goal_list = list(goal)
+
+  # Create a dictionary to count the frequency of each character in s.
+  s_count = {}
+  for c in s_list:
+    s_count[c] = s_count.get(c, 0) + 1
+
+  # Iterate over the characters in goal.
+  for c in goal_list:
+    # If the character is not in s_count, then it cannot be made equal by swapping two letters.
+    if c not in s_count:
+      return False
+
+    # Decrement the count of the character in s_count.
+    s_count[c] -= 1
+
+  # If all the characters in goal are in s and their counts are 0, then the strings can be made equal by swapping two letters.
+  return all(s_count[c] == 0 for c in goal_list)
+
