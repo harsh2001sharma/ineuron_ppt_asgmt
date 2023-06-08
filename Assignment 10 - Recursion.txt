@@ -1,0 +1,177 @@
+A1.
+
+def is_power_of_three(n):
+
+  if n == 0:
+    return False
+
+  while n % 3 == 0:
+    n /= 3
+
+  return n == 1
+
+
+if __name__ == "__main__":
+  n = int(input("Enter an integer: "))
+  if is_power_of_three(n):
+    print("True")
+  else:
+    print("False")
+
+
+
+A2.
+
+def last_number(n):
+
+  arr = list(range(1, n + 1))
+
+  while len(arr) > 1:
+    if len(arr) % 2 == 0:
+      # Remove every other number from left to right.
+      for i in range(0, len(arr), 2):
+        arr.pop(i)
+    else:
+      # Remove every other number from right to left.
+      for i in range(len(arr) - 1, -1, -2):
+        arr.pop(i)
+
+  return arr[0]
+
+
+if __name__ == "__main__":
+  n = int(input("Enter the number of elements in the list: "))
+  last_number = last_number(n)
+  print("The last number that remains is:", last_number)
+
+
+
+A3.
+
+def print_subsets(s, current_subset="", index=0):
+    if index == len(s):
+        print("'", current_subset, "'")
+        return
+
+    print_subsets(s, current_subset, index + 1)  # Exclude current element
+    print_subsets(s, current_subset + s[index], index + 1)  # Include current element
+
+
+set_string = "abc"
+print("Input set:", set_string)
+print("Output subsets:")
+print_subsets(set_string)
+
+
+A4.
+
+def length(str):
+    if len(str) == 0:
+        return 0
+    else:
+        return 1 + length(str[1:])
+
+A5.
+
+def count_substrings(s):
+  count = 0
+  for i in range(len(s)):
+    for j in range(i, len(s)):
+      if s[i] == s[j]:
+        count += 1
+  return count
+
+A6.
+
+def tower_of_hanoi(n, source, aux, dest):
+  
+  if n == 1:
+    # Move the 1-disk from source to dest.
+    print("move disk {} from rod {} to rod {}".format(n, source, dest))
+    return 1
+
+  # Move the top n-1 disks from source to aux.
+  moves = tower_of_hanoi(n - 1, source, dest, aux)
+
+  # Move the bottom disk from source to dest.
+  print("move disk {} from rod {} to rod {}".format(n, source, dest))
+
+  # Move the n-1 disks from aux to dest.
+  moves += tower_of_hanoi(n - 1, aux, source, dest)
+
+  return moves + 2
+
+
+def main():
+  # Get the number of disks from the user.
+  n = int(input("Enter the number of disks: "))
+
+  # Solve the Tower of Hanoi puzzle.
+  moves = tower_of_hanoi(n, 1, 2, 3)
+
+  # Print the total number of moves.
+  print("The total number of moves is: {}".format(moves))
+
+
+if __name__ == "__main__":
+  main()
+
+
+
+
+A7.
+
+def permutations(s):
+    if len(s) <= 1:
+        return [s]
+
+    perms = []
+    for i in range(len(s)):
+        char = s[i]
+        remaining = s[:i] + s[i+1:]
+        for p in permutations(remaining):
+            perms.append(char + p)
+
+    return perms
+
+
+# Test the program
+input_str = input("Enter a string: ")
+print("Input string:", input_str)
+
+all_perms = permutations(input_str)
+print("Output permutations:")
+for perm in all_perms:
+    print(perm)
+
+
+
+A8.
+
+def count_consonants(str):
+
+  vowels = "aeiou"
+  consonants = ""
+
+  for char in str:
+    if char not in vowels:
+      consonants += char
+
+  return len(consonants)
+
+
+def main():
+  # Get the string from the user.
+  str = input("Enter a string: ")
+
+  # Count the number of consonants.
+  num_consonants = count_consonants(str)
+
+  # Print the number of consonants.
+  print("The number of consonants in the string is: {}".format(num_consonants))
+
+
+if __name__ == "__main__":
+  main()
+
+
