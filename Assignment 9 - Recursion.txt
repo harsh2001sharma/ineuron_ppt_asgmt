@@ -1,0 +1,150 @@
+A1.
+
+def is_power_of_two(n):
+
+  if n == 0:
+    return False
+
+  while n % 2 == 0:
+    n //= 2
+
+  return n == 1
+
+
+A2.
+
+def sum_of_first_natural_numbers(n):
+
+  sum = 0
+  for i in range(1, n + 1):
+    sum += i
+
+  return sum
+
+
+A3.
+
+def factorial(n):
+
+  if n == 0:
+    return 1
+  else:
+    return n * factorial(n - 1)
+
+
+def main():
+  n = int(input("Enter a positive integer: "))
+
+  factorial_n = factorial(n)
+
+  print(f"The factorial of {n} is {factorial_n}")
+
+
+if __name__ == "__main__":
+  main()
+
+
+A4.
+
+def exponent(n, p):
+
+  result = 1
+  for i in range(p):
+    result *= n
+
+  return result
+
+
+if __name__ == "__main__":
+  # Get the input from the user.
+  n = int(input("Enter the base number: "))
+  p = int(input("Enter the exponent: "))
+
+  # Find the exponent of the number raised to the power.
+  result = exponent(n, p)
+
+  # Print the output.
+  print(f"The exponent of {n} raised to the power of {p} is {result}")
+
+A5.
+
+def find_max(arr, start, end):
+
+  if start == end:
+    return arr[start]
+
+  mid = (start + end) // 2
+  max_left = find_max(arr, start, mid)
+  max_right = find_max(arr, mid + 1, end)
+
+  return max(max_left, max_right)
+
+
+if __name__ == "__main__":
+  # Get the input from the user.
+  arr = [1, 4, 3, -5, -4, 8, 6]
+
+  # Find the maximum element of the array.
+  max_element = find_max(arr, 0, len(arr) - 1)
+
+  # Print the output.
+  print(f"The maximum element of the array is {max_element}")
+
+A6.
+
+def nth_term_of_ap(a, d, n):
+  return a + (n - 1) * d
+
+
+if __name__ == "__main__":
+  # Get the input from the user.
+  a = int(input("Enter the first term: "))
+  d = int(input("Enter the common difference: "))
+  n = int(input("Enter the nth term: "))
+
+  # Find the nth term of the arithmetic progression series.
+  nth_term = nth_term_of_ap(a, d, n)
+
+  # Print the output.
+  print(f"The {n}th term of the arithmetic progression series is {nth_term}")
+
+
+
+A7.
+
+def permutations(s):
+  if len(s) == 1:
+    return [s]
+
+  permutations_list = []
+  for i in range(len(s)):
+    for permutation in permutations(s[:i] + s[i + 1:]):
+      permutations_list.append(s[i] + permutation)
+
+  return permutations_list
+
+
+if __name__ == "__main__":
+  s = input("Enter a string: ")
+  permutations_list = permutations(s)
+  for permutation in permutations_list:
+    print(permutation)
+
+
+
+A8.
+
+def product_of_array_elements(arr):
+  product = 1
+  for element in arr:
+    product *= element
+
+  return product
+
+
+if __name__ == "__main__":
+  arr = [1, 2, 3, 4, 5]
+  product = product_of_array_elements(arr)
+  print(product)
+
+
