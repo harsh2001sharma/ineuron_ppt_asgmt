@@ -1,0 +1,38 @@
+def add_linked_lists(l1, l2):
+  """
+  Adds two linked lists representing two non-negative integers.
+
+  Args:
+    l1: The first linked list.
+    l2: The second linked list.
+
+  Returns:
+    The linked list representing the sum of the two numbers.
+  """
+
+  carry = 0
+  head = None
+  current = None
+
+  while l1 is not None or l2 is not None:
+    x = l1.val if l1 is not None else 0
+    y = l2.val if l2 is not None else 0
+    sum = x + y + carry
+
+    new_node = Node(sum % 10)
+    carry = sum // 10
+
+    if head is None:
+      head = new_node
+      current = new_node
+    else:
+      current.next = new_node
+      current = new_node
+
+    l1 = l1.next if l1 is not None else None
+    l2 = l2.next if l2 is not None else None
+
+  if carry > 0:
+    current.next = Node(carry)
+
+  return head
