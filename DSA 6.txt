@@ -1,0 +1,256 @@
+A1.
+
+def reconstruct_permutation(s):
+    """
+    Reconstructs the permutation perm from the string s.
+
+    Args:
+        s: The string representation of the permutation perm.
+
+    Returns:
+        The permutation perm.
+    """
+
+    perm = []
+    i = 0
+    while i < len(s):
+        if s[i] == 'I':
+            perm.append(i)
+            i += 1
+        else:
+            perm.append(i + 1)
+            i += 1
+    return perm
+
+
+if __name__ == "__main__":
+    s = "IDID"
+    result = reconstruct_permutation(s)
+    print(result)
+
+A2.
+
+def searchMatrix(matrix, target):
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    left = 0
+    right = rows * cols - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        row = mid // cols
+        col = mid % cols
+
+        if matrix[row][col] == target:
+            return True
+        elif matrix[row][col] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return False
+
+if __name__ == "__main__":
+    matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
+    target = 3
+    result = search_matrix(matrix, target)
+    print(result)
+
+A3.
+
+def is_mountain_array(arr):
+    """
+    Checks if arr is a valid mountain array.
+
+    Args:
+        arr: The array to check.
+
+    Returns:
+        True if arr is a valid mountain array, False otherwise.
+    """
+
+    if len(arr) < 3:
+        return False
+    i = 1
+    while i < len(arr) - 1 and arr[i - 1] < arr[i]:
+        i += 1
+    if i == len(arr) - 1 or arr[i] <= arr[i - 1]:
+        return False
+    j = i + 1
+    while j < len(arr) and arr[j - 1] > arr[j]:
+        j += 1
+    return j == len(arr)
+
+
+if __name__ == "__main__":
+    arr = [2, 1]
+    result = is_mountain_array(arr)
+    print(result)
+
+A4.
+
+def max_len_subarray_with_equal_0_and_1(nums):
+    """
+    Finds the maximum length of a contiguous subarray with an equal number of 0 and 1 in the array nums.
+
+    Args:
+        nums: The array of binary numbers.
+
+    Returns:
+        The maximum length of a contiguous subarray with an equal number of 0 and 1 in the array nums.
+    """
+
+    count_0 = 0
+    count_1 = 0
+    max_len = 0
+    for num in nums:
+        if num == 0:
+            count_0 += 1
+        elif num == 1:
+            count_1 += 1
+        if count_0 == count_1:
+            max_len = max(max_len, count_0 + count_1)
+        elif count_0 > count_1:
+            count_0 = 0
+        elif count_1 > count_0:
+            count_1 = 0
+    return max_len
+
+
+if __name__ == "__main__":
+    nums = [0, 1]
+    result = max_len_subarray_with_equal_0_and_1(nums)
+    print(result)
+
+A5.
+
+def min_product_sum(nums1, nums2):
+    """
+    Finds the minimum product sum of nums1 and nums2.
+
+    Args:
+        nums1: The first array.
+        nums2: The second array.
+
+    Returns:
+        The minimum product sum of nums1 and nums2.
+    """
+
+    min_sum = float("inf")
+    for i in range(len(nums1)):
+        temp = 0
+        for j in range(len(nums2)):
+            temp += nums1[i] * nums2[j]
+        if temp < min_sum:
+            min_sum = temp
+    return min_sum
+
+
+if __name__ == "__main__":
+    nums1 = [5, 3, 4, 2]
+    nums2 = [4, 2, 2, 5]
+    result = min_product_sum(nums1, nums2)
+    print(result)
+
+A6.
+
+def findOriginalArray(changed):
+    if len(changed) % 2 != 0:
+        return []
+
+    original = []
+    num_counts = {}
+    
+    for num in changed:
+        if num * 2 in num_counts and num_counts[num * 2] > 0:
+            original.append(num)
+            num_counts[num * 2] -= 1
+        else:
+            if num in num_counts:
+                num_counts[num] += 1
+            else:
+                num_counts[num] = 1
+    
+    if sum(num_counts.values()) > 0:
+        return []
+    
+    return original
+
+if __name__ == "__main__":
+    changed = [1, 3, 4, 2, 6, 8]
+    result = findOriginalArray(changed)
+    print(result)
+
+A7.
+
+def spiral_matrix(n):
+    """
+    Generate a spiral matrix of size n x n filled with elements from 1 to n2 in spiral order.
+
+    Args:
+        n: The size of the matrix.
+
+    Returns:
+        The spiral matrix.
+    """
+
+    matrix = [[0 for i in range(n)] for j in range(n)]
+    i, j = 0, 0
+    num = 1
+    while num <= n * n:
+        for k in range(4):
+            if k == 0:
+                matrix[i][j] = num
+                num += 1
+                j += 1
+            elif k == 1:
+                matrix[i][j] = num
+                num += 1
+                i += 1
+            elif k == 2:
+                matrix[i][j] = num
+                num += 1
+                j -= 1
+            else:
+                matrix[i][j] = num
+                num += 1
+                i -= 1
+        if i == 0 and j == n - 1:
+            break
+    return matrix
+
+
+if __name__ == "__main__":
+    n = 3
+    result = spiral_matrix(n)
+    print(result)
+
+A8.
+
+def multiply_sparse_matrices(mat1, mat2):
+    """
+    Multiplys two sparse matrices mat1 and mat2.
+
+    Args:
+        mat1: The first sparse matrix.
+        mat2: The second sparse matrix.
+
+    Returns:
+        The product of mat1 and mat2.
+    """
+
+    result = [[0 for i in range(len(mat2[0]))] for j in range(len(mat1))]
+    for i in range(len(mat1)):
+        for j in range(len(mat2[0])):
+            for k in range(len(mat2)):
+                if mat1[i][k] != 0 and mat2[k][j] != 0:
+                    result[i][j] += mat1[i][k] * mat2[k][j]
+    return result
+
+
+if __name__ == "__main__":
+    mat1 = [[1,0,0],[-1,0,3]]
+    mat2 = [[7,0,0],[0,0,0],[0,0,1]]
+    result = multiply_sparse_matrices(mat1, mat2)
+    print(result)
