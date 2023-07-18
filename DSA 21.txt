@@ -1,0 +1,243 @@
+A1.
+
+def convert_bst(root):
+    """
+    Convert a binary tree into a binary search tree.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The root of the binary search tree.
+    """
+
+    if not root:
+        return None
+
+    min_val = float("-inf")
+    max_val = float("inf")
+
+    def _convert_bst(node, min_val, max_val):
+        if not node:
+            return None
+
+        if node.val < min_val or node.val > max_val:
+            return None
+
+        left = _convert_bst(node.left, min_val, node.val)
+        right = _convert_bst(node.right, node.val, max_val)
+
+        node.left = left
+        node.right = right
+
+        return node
+
+    return _convert_bst(root, min_val, max_val)
+
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def main():
+    root = TreeNode(10)
+    root.left = TreeNode(2)
+    root.right = TreeNode(7)
+    root.left.left = TreeNode(8)
+    root.left.right = TreeNode(4)
+
+    result = convert_bst(root)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A2.
+
+def distance_between_nodes(root, node1, node2):
+    """
+    Finds the distance between two nodes in a binary search tree.
+
+    Args:
+        root: The root of the binary search tree.
+        node1: The first node.
+        node2: The second node.
+
+    Returns:
+        The distance between the two nodes.
+    """
+
+    if not root:
+        return -1
+
+    path1 = []
+    path2 = []
+
+    def _find_path(node, path):
+        if not node:
+            return
+
+        path.append(node)
+
+        if node == node1:
+            path1 = path
+        elif node == node2:
+            path2 = path
+
+        _find_path(node.left, path)
+        _find_path(node.right, path)
+
+    _find_path(root, path1)
+    _find_path(root, path2)
+
+    i = 0
+    j = 0
+    distance = 0
+
+    while i < len(path1) and j < len(path2):
+        if path1[i] != path2[j]:
+            break
+
+        distance += 1
+        i += 1
+        j += 1
+
+    return distance
+
+
+def main():
+    root = BinaryTreeNode(8)
+    root.left = BinaryTreeNode(3)
+    root.right = BinaryTreeNode(11)
+    root.left.left = BinaryTreeNode(1)
+    root.left.right = BinaryTreeNode(6)
+    root.right.left = BinaryTreeNode(7)
+    root.right.right = BinaryTreeNode(14)
+
+    node1 = 6
+    node2 = 14
+
+    result = distance_between_nodes(root, node1, node2)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A3.
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def convert_binary_tree_to_doubly_linked_list(root):
+    """
+    Convert a binary tree to a doubly linked list.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The head of the doubly linked list.
+    """
+
+    if not root:
+        return None
+
+    head = TreeNode(0)
+    prev = head
+    curr = root
+
+    while curr:
+        next = curr.right
+        curr.right = prev
+        prev = curr
+        curr = next
+
+    head.right.left = prev
+    return head.right
+
+
+def main():
+    root = TreeNode(10)
+    root.left = TreeNode(5)
+    root.right = TreeNode(20)
+    root.right.left = TreeNode(30)
+    root.right.right = TreeNode(35)
+
+    result = convert_binary_tree_to_doubly_linked_list(root)
+
+    def print_dll(node):
+        while node:
+            print(node.val)
+            node = node.right
+
+    print_dll(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A4.
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def convert_binary_tree_to_doubly_linked_list(root):
+    """
+    Convert a binary tree to a doubly linked list.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The head of the doubly linked list.
+    """
+
+    if not root:
+        return None
+
+    head = TreeNode(0)
+    prev = head
+    curr = root
+
+    while curr:
+        next = curr.right
+        curr.right = prev
+        prev = curr
+        curr = next
+
+    head.right.left = prev
+    return head.right
+
+
+def main():
+    root = TreeNode(10)
+    root.left = TreeNode(5)
+    root.right = TreeNode(20)
+    root.right.left = TreeNode(30)
+    root.right.right = TreeNode(35)
+
+    result = convert_binary_tree_to_doubly_linked_list(root)
+
+    def print_dll(node):
+        while node:
+            print(node.val)
+            node = node.right
+
+    print_dll(result)
+
+
+if __name__ == "__main__":
+    main()
