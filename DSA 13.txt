@@ -1,0 +1,362 @@
+A1.
+
+def merge_linked_lists(head1, head2):
+    """
+    Merges two linked lists into a new linked list.
+
+    Args:
+        head1: The head of the first linked list.
+        head2: The head of the second linked list.
+
+    Returns:
+        The head of the new linked list.
+    """
+
+    new_head = None
+    current = None
+    while head1 is not None and head2 is not None:
+        if head1.val > head2.val:
+            node = ListNode(head1.val)
+            if new_head is None:
+                new_head = node
+            else:
+                current.next = node
+            current = node
+            head1 = head1.next
+        else:
+            node = ListNode(head2.val)
+            if new_head is None:
+                new_head = node
+            else:
+                current.next = node
+            current = node
+            head2 = head2.next
+    if head1 is not None:
+        current.next = head1
+    elif head2 is not None:
+        current.next = head2
+    return new_head
+
+
+if __name__ == "__main__":
+    value1 = [5, 2, 3, 8]
+    value2 = [1, 7, 4, 5]
+    head1 = ListNode(value1[0])
+    head2 = ListNode(value2[0])
+    for i in range(1, len(value1)):
+        node = ListNode(value1[i])
+        node.next = head1
+        head1 = node
+    for i in range(1, len(value2)):
+        node = ListNode(value2[i])
+        node.next = head2
+        head2 = node
+    result = merge_linked_lists(head1, head2)
+    print_linked_list(result)
+
+A2.
+
+def remove_duplicates(head):
+    """
+    Removes duplicates from a sorted linked list.
+
+    Args:
+        head: The head of the linked list.
+
+    Returns:
+        The head of the linked list without duplicates.
+    """
+
+    current = head
+    while current is not None:
+        next_node = current.next
+        while next_node is not None and current.val == next_node.val:
+            next_node = next_node.next
+        current.next = next_node
+        current = next_node
+    return head
+
+
+if __name__ == "__main__":
+    value = [11, 11, 11, 21, 43, 43, 60]
+    head = ListNode(value[0])
+    for i in range(1, len(value)):
+        node = ListNode(value[i])
+        node.next = head
+        head = node
+    result = remove_duplicates(head)
+    print_linked_list(result)
+
+A3.
+
+def reverse_k_nodes(head, k):
+    """
+    Reverses k nodes of a linked list.
+
+    Args:
+        head: The head of the linked list.
+        k: The number of nodes to reverse.
+
+    Returns:
+        The head of the reversed linked list.
+    """
+
+    current = head
+    next_node = None
+    prev = None
+    count = 0
+    while current is not None and count < k:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+        count += 1
+    if next_node is not None:
+        head.next = reverse_k_nodes(next_node, k)
+    return prev
+
+
+if __name__ == "__main__":
+    value = [1, 2, 2, 4, 5, 6, 7, 8]
+    head = ListNode(value[0])
+    for i in range(1, len(value)):
+        node = ListNode(value[i])
+        node.next = head
+        head = node
+    result = reverse_k_nodes(head, 4)
+    print_linked_list(result)
+
+A4.
+
+def reverse_alternate_k_nodes(head, k):
+    """
+    Reverses every alternate k nodes of a linked list.
+
+    Args:
+        head: The head of the linked list.
+        k: The number of nodes to reverse.
+
+    Returns:
+        The head of the reversed linked list.
+    """
+
+    current = head
+    prev = None
+    next_node = None
+    start = 0
+    while current is not None:
+        if start % k == 0:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        else:
+            current = current.next
+        start += 1
+    if prev is not None:
+        head.next = reverse_alternate_k_nodes(prev, k)
+    return head
+
+
+if __name__ == "__main__":
+    value = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    head = ListNode(value[0])
+    for i in range(1, len(value)):
+        node = ListNode(value[i])
+        node.next = head
+        head = node
+    result = reverse_alternate_k_nodes(head, 3)
+    print_linked_list(result)
+
+A5.
+
+def delete_last_occurrence(head, key):
+    """
+    Deletes the last occurrence of a key from a linked list.
+
+    Args:
+        head: The head of the linked list.
+        key: The key to be deleted.
+
+    Returns:
+        The head of the linked list after deleting the last occurrence of the key.
+    """
+
+    previous = None
+    current = head
+    while current is not None:
+        if current.val == key:
+            if previous is None:
+                # The key is at the head of the linked list.
+                head = current.next
+            else:
+                # The key is not at the head of the linked list.
+                previous.next = current.next
+        previous = current
+        current = current.next
+    return head
+
+
+if __name__ == "__main__":
+    value = [1, 2, 3, 5, 2, 10]
+    head = ListNode(value[0])
+    for i in range(1, len(value)):
+        node = ListNode(value[i])
+        node.next = head
+        head = node
+    result = delete_last_occurrence(head, 2)
+    print_linked_list(result)
+
+A6.
+
+def merge_sorted_linked_lists(head1, head2):
+    """
+    Merges two sorted linked lists in place.
+
+    Args:
+        head1: The head of the first linked list.
+        head2: The head of the second linked list.
+
+    Returns:
+        The head of the merged linked list.
+    """
+
+    current1 = head1
+    current2 = head2
+    merged_head = None
+    if current1 is None:
+        return head2
+    elif current2 is None:
+        return head1
+    else:
+        if current1.val <= current2.val:
+            merged_head = current1
+            current1 = current1.next
+        else:
+            merged_head = current2
+            current2 = current2.next
+        merged_current = merged_head
+        while current1 is not None and current2 is not None:
+            if current1.val <= current2.val:
+                merged_current.next = current1
+                current1 = current1.next
+            else:
+                merged_current.next = current2
+                current2 = current2.next
+            merged_current = merged_current.next
+        if current1 is not None:
+            merged_current.next = current1
+        elif current2 is not None:
+            merged_current.next = current2
+        return merged_head
+
+
+if __name__ == "__main__":
+    value1 = [5, 10, 15]
+    value2 = [2, 3, 20]
+    head1 = ListNode(value1[0])
+    for i in range(1, len(value1)):
+        node = ListNode(value1[i])
+        node.next = head1
+        head1 = node
+    head2 = ListNode(value2[0])
+    for i in range(1, len(value2)):
+        node = ListNode(value2[i])
+        node.next = head2
+        head2 = node
+    result = merge_sorted_linked_lists(head1, head2)
+    print_linked_list(result)
+
+A7.
+
+class DoublyLinkedListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+        self.prev = None
+
+
+def reverse_doubly_linked_list(head):
+    """
+    Reverses a doubly linked list.
+
+    Args:
+        head: The head of the doubly linked list.
+
+    Returns:
+        The head of the reversed doubly linked list.
+    """
+
+    current = head
+    previous = None
+    while current is not None:
+        next_node = current.next
+        current.next = previous
+        current.prev = next_node
+        previous = current
+        current = next_node
+    return previous
+
+
+if __name__ == "__main__":
+    value = [10, 8, 4, 2]
+    head = DoublyLinkedListNode(value[0])
+    for i in range(1, len(value)):
+        node = DoublyLinkedListNode(value[i])
+        node.next = head
+        head = node
+    result = reverse_doubly_linked_list(head)
+    while result is not None:
+        print(result.val)
+        result = result.prev
+
+A8.
+
+class DoublyLinkedListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+        self.prev = None
+
+
+def delete_node_at_position(head, x):
+    """
+    Deletes a node from a doubly linked list at the given position.
+
+    Args:
+        head: The head of the doubly linked list.
+        x: The position of the node to be deleted.
+
+    Returns:
+        The head of the doubly linked list after deleting the node.
+    """
+
+    current = head
+    previous = None
+    count = 1
+    while current is not None and count <= x:
+        previous = current
+        current = current.next
+        count += 1
+    if current is None:
+        return head
+    if previous is not None:
+        previous.next = current.next
+    else:
+        head = current.next
+    if current.next is not None:
+        current.next.prev = previous
+    current.next = None
+    current.prev = None
+    return head
+
+
+if __name__ == "__main__":
+    value = [1, 3, 4]
+    head = DoublyLinkedListNode(value[0])
+    for i in range(1, len(value)):
+        node = DoublyLinkedListNode(value[i])
+        node.next = head
+        head = node
+    result = delete_node_at_position(head, 2)
+    print_doubly_linked_list(result)
