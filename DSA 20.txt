@@ -1,0 +1,137 @@
+A1.
+
+class BinaryTreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def max_sum_subtree(root):
+    """
+    Finds the subtree with maximum sum in a binary tree.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The maximum sum of a subtree.
+    """
+
+    if not root:
+        return 0
+
+    left_sum = max_sum_subtree(root.left)
+    right_sum = max_sum_subtree(root.right)
+    max_sum = max(left_sum, right_sum) + root.val
+
+    if max_sum < 0:
+        return 0
+
+    return max_sum
+
+
+def main():
+    root = BinaryTreeNode(1)
+    root.left = BinaryTreeNode(2)
+    root.right = BinaryTreeNode(3)
+    root.left.left = BinaryTreeNode(4)
+    root.left.right = BinaryTreeNode(5)
+    root.right.left = BinaryTreeNode(6)
+    root.right.right = BinaryTreeNode(7)
+    result = max_sum_subtree(root)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A2.
+
+def construct_bst_from_level_order(arr):
+    """
+    Construct a binary search tree from its given level order traversal.
+
+    Args:
+        arr: The level order traversal of the binary search tree.
+
+    Returns:
+        The root of the binary search tree.
+    """
+
+    if not arr:
+        return None
+
+    root = BinaryTreeNode(arr[0])
+    index = 1
+    q = [root]
+
+    while index < len(arr):
+        node = q.pop(0)
+
+        left_child = arr[index]
+        if left_child:
+            new_node = BinaryTreeNode(left_child)
+            node.left = new_node
+            q.append(new_node)
+
+        index += 1
+
+        right_child = arr[index]
+        if right_child:
+            new_node = BinaryTreeNode(right_child)
+            node.right = new_node
+            q.append(new_node)
+
+        index += 1
+
+    return root
+
+
+class BinaryTreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def main():
+    arr = [7, 4, 12, 3, 6, 8, 1, 5, 10]
+    root = construct_bst_from_level_order(arr)
+    print(root)
+
+
+if __name__ == "__main__":
+    main()
+
+A3.
+
+def is_bst_level_order(arr):
+    """
+    Checks if the given array can represent the level order traversal of a Binary Search Tree.
+
+    Args:
+        arr: The array to check.
+
+    Returns:
+        True if the array can represent the level order traversal of a Binary Search Tree, False otherwise.
+    """
+
+    if not arr:
+        return True
+
+    for i in range(1, len(arr)):
+        if arr[i] <= arr[i - 1]:
+            return False
+
+    return True
+
+
+def main():
+    arr = [7, 4, 12, 3, 6, 8, 1, 5, 10]
+    result = is_bst_level_order(arr)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
