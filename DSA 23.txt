@@ -1,0 +1,196 @@
+A1.
+
+def calculate_depth(preorder):
+    """
+    Calculates the depth of a binary tree given its preorder traversal.
+
+    Args:
+        preorder: The preorder traversal of the binary tree.
+
+    Returns:
+        The depth of the binary tree.
+    """
+
+    stack = []
+    depth = 0
+
+    for char in preorder:
+        if char == "l":
+            depth += 1
+        else:
+            stack.append(depth)
+
+    return max(stack)
+
+
+def main():
+    preorder = "nlnll"
+
+    result = calculate_depth(preorder)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A2.
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def left_view(root):
+    """
+    Print the left view of a binary tree.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The left view of the binary tree.
+    """
+
+    if not root:
+        return []
+
+    queue = [root]
+    result = []
+
+    while queue:
+        node = queue.pop(0)
+        result.append(node.val)
+
+        if node.left:
+            queue.append(node.left)
+
+    return result
+
+
+def main():
+    root = TreeNode(4)
+    root.left = TreeNode(5)
+    root.right = TreeNode(2)
+    root.right.left = TreeNode(3)
+    root.right.right = TreeNode(1)
+    root.right.left.left = TreeNode(6)
+    root.right.left.right = TreeNode(7)
+
+    result = left_view(root)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A3.
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def right_view(root):
+    """
+    Print the right view of a binary tree.
+
+    Args:
+        root: The root of the binary tree.
+
+    Returns:
+        The right view of the binary tree.
+    """
+
+    if not root:
+        return []
+
+    queue = [root]
+    result = []
+    index = 0
+
+    while queue:
+        node = queue[-1]
+        index += 1
+
+        if index == len(result):
+            result.append(node.val)
+
+        if node.right:
+            queue.append(node.right)
+
+        if not node.left and queue:
+            queue.pop()
+
+    return result
+
+
+def main():
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(3)
+    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+    root.right.right = TreeNode(7)
+    root.right.right.right = TreeNode(8)
+
+    result = right_view(root)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+
+A4.
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+def bottom_view(root, hd, max_hd, queue):
+    """
+    Print the bottom view of a binary tree.
+
+    Args:
+        root: The root of the binary tree.
+        hd: The horizontal distance of the current node.
+        max_hd: The maximum horizontal distance till now.
+        queue: The queue that stores the bottom view nodes.
+    """
+
+    if not root:
+        return
+
+    if hd > max_hd:
+        max_hd = hd
+        queue.append(root.val)
+
+    bottom_view(root.left, hd - 1, max_hd, queue)
+    bottom_view(root.right, hd + 1, max_hd, queue)
+
+
+def main():
+    root = TreeNode(20)
+    root.left = TreeNode(8)
+    root.right = TreeNode(22)
+    root.left.left = TreeNode(5)
+    root.left.right = TreeNode(3)
+    root.right.left = TreeNode(4)
+    root.right.right = TreeNode(25)
+    root.left.right.right = TreeNode(10)
+    root.right.right.right = TreeNode(14)
+
+    max_hd = 0
+    queue = []
+    bottom_view(root, 0, max_hd, queue)
+    print("Bottom view: ", queue)
+
+
+if __name__ == "__main__":
+    main()
