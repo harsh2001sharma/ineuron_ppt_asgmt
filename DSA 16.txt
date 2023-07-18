@@ -1,0 +1,257 @@
+A1.
+
+def next_greater_frequency(arr):
+    """
+    Computes the nearest element to the right which is having a frequency greater than that of the current element.
+
+    Args:
+        arr: The array.
+
+    Returns:
+        The array of next greater frequencies.
+    """
+
+    n = len(arr)
+    next_greater_freq = [-1] * n
+    stack = []
+    freq_map = {}
+    for i in range(n):
+        if arr[i] not in freq_map:
+            freq_map[arr[i]] = 1
+        else:
+            freq_map[arr[i]] += 1
+
+        while stack and freq_map[stack[-1]] < freq_map[arr[i]]:
+            next_greater_freq[stack[-1]] = arr[i]
+            stack.pop()
+
+        stack.append(arr[i])
+
+    return next_greater_freq
+
+
+if __name__ == "__main__":
+    arr = [1, 1, 2, 3, 4, 2, 1]
+    ngf = next_greater_frequency(arr)
+    assert ngf == [-1, -1, 1, 2, 2, 1, -1]
+
+A2.
+
+def sort_stack(stack):
+    """
+    Sorts the stack in ascending order using another temporary stack.
+
+    Args:
+        stack: The stack to be sorted.
+
+    Returns:
+        The sorted stack.
+    """
+
+    temporary_stack = []
+    while not stack.empty():
+        top = stack.pop()
+        while not temporary_stack.empty() and temporary_stack[-1] > top:
+            stack.push(temporary_stack.pop())
+        temporary_stack.append(top)
+
+    return temporary_stack
+
+
+if __name__ == "__main__":
+    stack = [34, 3, 31, 98, 92, 23]
+    new_stack = sort_stack(stack)
+    assert new_stack == [3, 23, 31, 34, 92, 98]
+
+A3.
+
+def delete_middle_element(stack):
+    """
+    Deletes the middle element of the stack without using any additional data structure.
+
+    Args:
+        stack: The stack to be deleted.
+
+    Returns:
+        The stack after deleting the middle element.
+    """
+
+    n = len(stack)
+    if n % 2 == 0:
+        mid = n // 2
+    else:
+        mid = (n - 1) // 2
+
+    for i in range(mid):
+        stack.pop()
+
+    return stack
+
+
+if __name__ == "__main__":
+    stack = [1, 2, 3, 4, 5]
+    new_stack = delete_middle_element(stack)
+    assert new_stack == [1, 2, 4, 5]
+
+A4.
+
+def is_queue_rearrangeable(queue):
+    """
+    Checks if the given Queue elements can be arranged in increasing order in another Queue using a stack.
+
+    Args:
+        queue: The queue to be checked.
+
+    Returns:
+        True if the queue can be rearranged, False otherwise.
+    """
+
+    stack = []
+    i = 0
+    while i < len(queue):
+        if not stack or queue[i] > stack[-1]:
+            stack.append(queue[i])
+        else:
+            while stack and queue[i] <= stack[-1]:
+                stack.pop()
+
+            if not stack or queue[i] > stack[-1]:
+                return False
+
+        i += 1
+    return True
+
+
+if __name__ == "__main__":
+    queue = [5, 1, 2, 3, 4]
+    assert is_queue_rearrangeable(queue)
+
+    queue = [5, 1, 2, 6, 3, 4]
+    assert not is_queue_rearrangeable(queue)
+
+A5.
+
+def reverse_number(number):
+    """
+    Reverses the given number using a stack.
+
+    Args:
+        number: The number to be reversed.
+
+    Returns:
+        The reversed number.
+    """
+
+    stack = []
+    while number > 0:
+        rem = number % 10
+        stack.append(rem)
+        number //= 10
+
+    rev_number = 0
+    for i in range(len(stack)):
+        rev_number += stack.pop() * 10**i
+
+    return rev_number
+
+
+if __name__ == "__main__":
+    number = 365
+    rev_number = reverse_number(number)
+    assert rev_number == 563
+
+    number = 6899
+    rev_number = reverse_number(number)
+    assert rev_number == 9986
+
+A6.
+
+def reverse_first_k_elements(queue, k):
+    """
+    Reverses the first k elements of the queue.
+
+    Args:
+        queue: The queue to be reversed.
+        k: The number of elements to be reversed.
+
+    Returns:
+        The reversed queue.
+    """
+
+    temp_queue = []
+    for i in range(k):
+        temp_queue.append(queue.dequeue())
+
+    for i in range(k):
+        queue.enqueue(temp_queue.pop())
+
+    return queue
+
+
+if __name__ == "__main__":
+    queue = [1, 2, 3, 4, 5, 6]
+    k = 3
+    queue = reverse_first_k_elements(queue, k)
+    assert queue == [3, 2, 1, 4, 5, 6]
+
+A7.
+
+def destroy_similar_words(words):
+    """
+    Destroys any two similar words that come together.
+
+    Args:
+        words: The sequence of words.
+
+    Returns:
+        The number of words left in the sequence after the destruction.
+    """
+
+    count = 0
+    for i in range(len(words)):
+        if i + 1 < len(words) and words[i] == words[i + 1]:
+            words.pop(i + 1)
+            count += 1
+
+    return len(words) - count
+
+
+if __name__ == "__main__":
+    words = ["ab", "aa", "aa", "bcd", "ab"]
+    result = destroy_similar_words(words)
+    assert result == 3
+
+    words = ["tom", "jerry", "jerry", "tom"]
+    result = destroy_similar_words(words)
+    assert result == 0
+
+A8.
+
+def destroy_similar_words(words):
+    """
+    Destroys any two similar words that come together.
+
+    Args:
+        words: The sequence of words.
+
+    Returns:
+        The number of words left in the sequence after the destruction.
+    """
+
+    count = 0
+    for i in range(len(words)):
+        if i + 1 < len(words) and words[i] == words[i + 1]:
+            words.pop(i + 1)
+            count += 1
+
+    return len(words) - count
+
+
+if __name__ == "__main__":
+    words = ["ab", "aa", "aa", "bcd", "ab"]
+    result = destroy_similar_words(words)
+    assert result == 3
+
+    words = ["tom", "jerry", "jerry", "tom"]
+    result = destroy_similar_words(words)
+    assert result == 0
