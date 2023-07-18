@@ -1,0 +1,243 @@
+A1.
+
+def common_elements(arr1, arr2, arr3):
+    """
+    Returns a sorted array of only the integers that appeared in **all** three arrays.
+
+    Args:
+        arr1: The first array.
+        arr2: The second array.
+        arr3: The third array.
+
+    Returns:
+        A sorted array of only the integers that appeared in **all** three arrays.
+    """
+
+    i = j = k = 0
+    common = []
+    while i < len(arr1) and j < len(arr2) and k < len(arr3):
+        if arr1[i] == arr2[j] == arr3[k]:
+            common.append(arr1[i])
+            i += 1
+            j += 1
+            k += 1
+        elif arr1[i] < arr2[j]:
+            i += 1
+        elif arr2[j] < arr3[k]:
+            j += 1
+        else:
+            k += 1
+    return common
+
+
+if __name__ == "__main__":
+    arr1 = [1, 2, 3, 4, 5]
+    arr2 = [1, 2, 5, 7, 9]
+    arr3 = [1, 3, 4, 5, 8]
+    result = common_elements(arr1, arr2, arr3)
+    print(result)
+
+A2.
+
+def find_distinct_numbers(nums1, nums2):
+    """
+    Returns a list of two lists, where the first list contains all distinct integers in nums1 that are not present in nums2, and the second list contains all distinct integers in nums2 that are not present in nums1.
+
+    Args:
+        nums1: The first array.
+        nums2: The second array.
+
+    Returns:
+        A list of two lists.
+    """
+
+    present_in_both = set()
+    distinct_nums1 = []
+    distinct_nums2 = []
+    for num in nums1:
+        if num not in nums2 and num not in present_in_both:
+            distinct_nums1.append(num)
+        elif num in nums2:
+            present_in_both.add(num)
+    for num in nums2:
+        if num not in nums1 and num not in present_in_both:
+            distinct_nums2.append(num)
+        elif num in nums1:
+            present_in_both.add(num)
+    return [distinct_nums1, distinct_nums2]
+
+
+if __name__ == "__main__":
+    nums1 = [1, 2, 3]
+    nums2 = [2, 4, 6]
+    result = find_distinct_numbers(nums1, nums2)
+    print(result)
+
+A3.
+
+def transpose(matrix):
+    """
+    Transposes the matrix.
+
+    Args:
+        matrix: The matrix to be transposed.
+
+    Returns:
+        The transposed matrix.
+    """
+
+    transpose = []
+    for i in range(len(matrix[0])):
+        new_row = []
+        for j in range(len(matrix)):
+            new_row.append(matrix[j][i])
+        transpose.append(new_row)
+    return transpose
+
+
+if __name__ == "__main__":
+    matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    result = transpose(matrix)
+    print(result)
+
+A4.
+
+def max_pairwise_sum(nums):
+    """
+    Maximizes the sum of min(ai, bi) for all i.
+
+    Args:
+        nums: The array of integers.
+
+    Returns:
+        The maximized sum.
+    """
+
+    nums.sort()
+    max_sum = 0
+    for i in range(len(nums) // 2):
+        max_sum += min(nums[i], nums[len(nums) - i - 1])
+    return max_sum
+
+
+if __name__ == "__main__":
+    nums = [1, 4, 3, 2]
+    result = max_pairwise_sum(nums)
+    print(result)
+
+A5.
+
+def staircase_rows(n):
+    """
+    Determines the number of complete rows of the staircase.
+
+    Args:
+        n: The number of coins.
+
+    Returns:
+        The number of complete rows of the staircase.
+    """
+
+    current_row = 1
+    complete_rows = 0
+    while current_row <= n:
+        if n >= current_row:
+            complete_rows += 1
+            n -= current_row
+        current_row += 1
+    return complete_rows
+
+
+if __name__ == "__main__":
+    n = 5
+    result = staircase_rows(n)
+    print(result)
+
+A6.
+
+def sorted_squares(nums):
+    """
+    Computes the squares of the elements in nums and returns them in sorted order.
+
+    Args:
+        nums: The array of integers.
+
+    Returns:
+        The array of squares of the elements in nums sorted in non-decreasing order.
+    """
+
+    squared_nums = []
+    for num in nums:
+        squared_nums.append(num * num)
+    squared_nums.sort()
+    return squared_nums
+
+
+if __name__ == "__main__":
+    nums = [-4, -1, 0, 3, 10]
+    result = sorted_squares(nums)
+    print(result)
+
+A7.
+
+def max_integers_in_matrix(m, n, ops):
+    """
+    Counts the number of maximum integers in the matrix after performing all the operations.
+
+    Args:
+        m: The number of rows in the matrix.
+        n: The number of columns in the matrix.
+        ops: The array of operations.
+
+    Returns:
+        The number of maximum integers in the matrix after performing all the operations.
+    """
+
+    max_integer = 0
+    count = 0
+    for ai, bi in ops:
+        for i in range(ai):
+            for j in range(bi):
+                M[i][j] += 1
+        if max_integer < M[ai - 1][bi - 1]:
+            max_integer = M[ai - 1][bi - 1]
+    for i in range(m):
+        for j in range(n):
+            if M[i][j] == max_integer:
+                count += 1
+    return count
+
+
+if __name__ == "__main__":
+    m = 3
+    n = 3
+    ops = [[2, 2], [3, 3]]
+    result = max_integers_in_matrix(m, n, ops)
+    print(result)
+
+A8.
+
+def interleave_array(nums, n):
+    """
+    Rearranges the array nums in the form [x1,y1,x2,y2,...,xn,yn].
+
+    Args:
+        nums: The array of integers.
+        n: The number of elements in the array.
+
+    Returns:
+        The rearranged array.
+    """
+
+    rearranged = []
+    for i in range(n):
+        rearranged.append(nums[i])
+        rearranged.append(nums[n + i])
+    return rearranged
+
+
+if __name__ == "__main__":
+    nums = [2, 5, 1, 3, 4, 7]
+    n = 3
+    result = interleave_array(nums, n)
+    print(result)
