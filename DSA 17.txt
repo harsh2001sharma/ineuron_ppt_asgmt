@@ -1,0 +1,339 @@
+A1.
+
+def first_non_repeating_character(s):
+    """
+    Finds the first non-repeating character in the string and returns its index.
+
+    Args:
+        s: The string.
+
+    Returns:
+        The index of the first non-repeating character, or -1 if it does not exist.
+    """
+
+    char_count = {}
+    for i in range(len(s)):
+        if s[i] not in char_count:
+            char_count[s[i]] = 1
+        else:
+            char_count[s[i]] += 1
+
+    for i in range(len(s)):
+        if char_count[s[i]] == 1:
+            return i
+
+    return -1
+
+
+if __name__ == "__main__":
+    s = "leetcode"
+    result = first_non_repeating_character(s)
+    print(result)
+
+A2.
+
+def max_circular_sum(nums):
+    """
+    Computes the maximum possible sum of a non-empty subarray of nums.
+
+    Args:
+        nums: The circular array.
+
+    Returns:
+        The maximum possible sum.
+    """
+
+    max_ending_here = max_so_far = nums[0]
+    for num in nums[1:]:
+        max_ending_here = max(max_ending_here + num, num)
+        max_so_far = max(max_so_far, max_ending_here)
+
+    min_ending_here = min_so_far = nums[0]
+    for num in nums[1:]:
+        min_ending_here = min(min_ending_here + num, num)
+        min_so_far = min(min_so_far, min_ending_here)
+
+    return max(max_so_far, -min_so_far)
+
+
+if __name__ == "__main__":
+    nums = [1, -2, 3, -2]
+    result = max_circular_sum(nums)
+    print(result)
+
+A3.
+
+def students_who_cant_eat(students, sandwiches):
+    """
+    Computes the number of students who are unable to eat.
+
+    Args:
+        students: The preferences of the students.
+        sandwiches: The types of the sandwiches.
+
+    Returns:
+        The number of students who are unable to eat.
+    """
+
+    student_index = 0
+    sandwich_index = 0
+    unable_to_eat = 0
+    while student_index < len(students) and sandwich_index < len(sandwiches):
+        if students[student_index] == sandwiches[sandwich_index]:
+            student_index += 1
+            sandwich_index += 1
+        elif students[student_index] != sandwiches[sandwich_index]:
+            student_index += 1
+
+    unable_to_eat = len(students) - student_index
+    return unable_to_eat
+
+
+if __name__ == "__main__":
+    students = [1, 1, 0, 0]
+    sandwiches = [0, 1, 0, 1]
+    result = students_who_cant_eat(students, sandwiches)
+    print(result)
+
+
+A4.
+
+class RecentCounter:
+
+    def __init__(self):
+        self.queue = []
+
+    def ping(self, t):
+        self.queue.append(t)
+        while self.queue[0] < t - 3000:
+            self.queue.pop(0)
+
+        return len(self.queue)
+
+
+if __name__ == "__main__":
+    recent_counter = RecentCounter()
+    result = recent_counter.ping(1)
+    assert result == 1
+
+    result = recent_counter.ping(100)
+    assert result == 2
+
+    result = recent_counter.ping(3001)
+    assert result == 3
+
+    result = recent_counter.ping(3002)
+    assert result == 3
+class RecentCounter:
+
+    def __init__(self):
+        self.queue = []
+
+    def ping(self, t):
+        self.queue.append(t)
+        while self.queue[0] < t - 3000:
+            self.queue.pop(0)
+
+        return len(self.queue)
+
+
+if __name__ == "__main__":
+    recent_counter = RecentCounter()
+    result = recent_counter.ping(1)
+    assert result == 1
+
+    result = recent_counter.ping(100)
+    assert result == 2
+
+    result = recent_counter.ping(3001)
+    assert result == 3
+
+    result = recent_counter.ping(3002)
+    assert result == 3
+
+A5.
+
+def find_winner(n, k):
+    """
+    Finds the winner of the game.
+
+    Args:
+        n: The number of friends.
+        k: The number of friends to count.
+
+    Returns:
+        The winner of the game.
+    """
+
+    current_friend = 1
+    while n > 1:
+        for _ in range(k):
+            current_friend = (current_friend + 1) % n
+
+        # The current friend loses the game.
+        n -= 1
+
+        # Start counting from the friend immediately clockwise of the loser.
+        current_friend = (current_friend + 1) % n
+
+    return current_friend
+
+
+if __name__ == "__main__":
+    n = 5
+    k = 2
+    result = find_winner(n, k)
+    print(result)
+
+A6.
+
+def deck_reveal(deck):
+    """
+    Reorders the deck so that the cards are revealed in increasing order.
+
+    Args:
+        deck: The deck of cards.
+
+    Returns:
+        The reordered deck.
+    """
+
+    revealed = []
+    stack = []
+    for card in deck:
+        if not stack:
+            revealed.append(card)
+        else:
+            while stack and stack[-1] < card:
+                revealed.append(stack.pop())
+
+        stack.append(card)
+
+    return revealed
+
+
+if __name__ == "__main__":
+    deck = [17, 13, 11, 2, 3, 5, 7]
+    result = deck_reveal(deck)
+    print(result)
+
+A7.
+
+class FrontMiddleBackQueue:
+
+    def __init__(self):
+        self.queue = []
+
+    def pushFront(self, val):
+        """
+        Adds val to the front of the queue.
+
+        Args:
+            val: The value to add.
+        """
+        self.queue.insert(0, val)
+
+    def pushMiddle(self, val):
+        """
+        Adds val to the middle of the queue.
+
+        Args:
+            val: The value to add.
+        """
+        self.queue.insert(len(self.queue) // 2, val)
+
+    def pushBack(self, val):
+        """
+        Adds val to the back of the queue.
+
+        Args:
+            val: The value to add.
+        """
+        self.queue.append(val)
+
+    def popFront(self):
+        """
+        Removes the front element of the queue and returns it.
+
+        Returns:
+            The front element of the queue, or -1 if the queue is empty.
+        """
+        if not self.queue:
+            return -1
+
+        return self.queue.pop(0)
+
+    def popMiddle(self):
+        """
+        Removes the middle element of the queue and returns it.
+
+        Returns:
+            The middle element of the queue, or -1 if the queue is empty.
+        """
+        if not self.queue:
+            return -1
+
+        mid = len(self.queue) // 2
+        return self.queue.pop(mid)
+
+    def popBack(self):
+        """
+        Removes the back element of the queue and returns it.
+
+        Returns:
+            The back element of the queue, or -1 if the queue is empty.
+        """
+        if not self.queue:
+            return -1
+
+        return self.queue.pop()
+
+
+if __name__ == "__main__":
+    q = FrontMiddleBackQueue()
+    q.pushFront(1)
+    q.pushBack(2)
+    q.pushMiddle(3)
+    q.pushMiddle(4)
+    assert q.popFront() == 1
+    assert q.popMiddle() == 3
+    assert q.popMiddle() == 4
+    assert q.popBack() == 2
+    assert q.popFront() == -1
+
+A8.
+
+class DataStream:
+
+    def __init__(self, value, k):
+        self.value = value
+        self.k = k
+        self.stream = []
+
+    def consec(self, num):
+        """
+        Adds num to the stream of integers and checks if the last k integers parsed are equal to value.
+
+        Args:
+            num: The integer to add to the stream.
+
+        Returns:
+            True if the last k integers parsed are equal to value, and False otherwise.
+        """
+        self.stream.append(num)
+        if len(self.stream) < self.k:
+            return False
+
+        window = self.stream[-self.k:]
+        if all(x == self.value for x in window):
+            return True
+
+        return False
+
+
+if __name__ == "__main__":
+    data_stream = DataStream(4, 3)
+    assert data_stream.consec(4) == False
+    assert data_stream.consec(4) == False
+    assert data_stream.consec(4) == True
+    assert data_stream.consec(3) == False
